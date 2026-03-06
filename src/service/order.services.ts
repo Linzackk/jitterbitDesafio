@@ -25,9 +25,20 @@ export async function createOrder(
 export async function searchOrder(idPedido: string) {
     try {
         const searchedOrder = await SearchOrderDb(idPedido);
-        return searchedOrder;
+        const formatedOrder = {
+            orderId: searchedOrder[0].orderId,
+            value: searchedOrder[0].value,
+            creationDate: searchedOrder[0].creationDate,
+            items: searchedOrder.map((item: any) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.price
+            }))
+        }
+        return formatedOrder;
+        
     } catch (error: any) {
-        // lançar erro global
+        console.log("ERRO: ", error.message)
     }
 
 }
