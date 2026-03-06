@@ -26,7 +26,7 @@ export const validarCreateOrder = [
         .withMessage("Campo precisa ser um array.")
 ]
 
-export const validarProcurarOrder = [
+export const validarIdPedido = [
     param("id")
         .notEmpty()
         .withMessage("Campo obrigatório.")

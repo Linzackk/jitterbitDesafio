@@ -1,5 +1,6 @@
 import { CreateItemDb } from "../infrastructure/item/item.create";
 import { CreateOrderDb } from "../infrastructure/order/order.create";
+import { deleteOrderDb } from "../infrastructure/order/order.delete";
 import { SearchOrderDataDb, SearchOrderDb } from "../infrastructure/order/order.search";
 import { Item } from "../model/item";
 
@@ -44,6 +45,14 @@ export async function searchAllOrder() {
 
         return dataResponse
         
+    } catch (error: any) {
+
+    }
+}
+
+export async function deleteOrder(orderId: string) {
+    try {
+        const data = await deleteOrderDb(orderId);
     } catch (error: any) {
 
     }

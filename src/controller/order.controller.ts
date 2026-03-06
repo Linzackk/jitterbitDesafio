@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCode } from "../util/utilNumbers";
-import { createOrder, searchAllOrder, searchOrder } from "../service/order.services";
+import { createOrder, searchAllOrder, searchOrder, deleteOrder } from "../service/order.services";
 
 export async function CriarPedido(
     req: Request,
@@ -32,9 +32,19 @@ export async function ProcurarTodosPedidos (
     res: Response
 ) {
     const searchedOrders = await searchAllOrder();
-    await searchedOrders;
     res.status(StatusCode.OK).json({
         message: "Pedidos encontrados com sucesso.",
         data: {orders: searchedOrders}
+    })
+}
+
+export async function DeletarPedido(
+    req: Request,
+    res: Response
+) {
+    const {id} = req.params
+    await deleteOrder(id as string);
+    res.status(StatusCode.OK).json({
+        message: "Pedido deletado com sucesso."
     })
 }
