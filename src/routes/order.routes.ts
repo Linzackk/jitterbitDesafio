@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { validarCreateOrder, validarProcurarOrder } from "../middleware/order.middleware";
+import { validarCreateOrder, validarIdPedido } from "../middleware/order.middleware";
 import { validarErrosMiddleware } from "../middleware/validarErros";
-import { CriarPedido, ProcurarPedido, ProcurarTodosPedidos } from "../controller/order.controller";
+import { CriarPedido, ProcurarPedido, ProcurarTodosPedidos, DeletarPedido } from "../controller/order.controller";
 
 const router = Router();
 
@@ -14,7 +14,7 @@ router.post(
 
 router.get(
     "/:id",
-    validarProcurarOrder,
+    validarIdPedido,
     validarErrosMiddleware,
     ProcurarPedido
 )
@@ -22,6 +22,13 @@ router.get(
 router.get(
     "/",
     ProcurarTodosPedidos
+)
+
+router.delete(
+    "/:id",
+    validarIdPedido,
+    validarErrosMiddleware,
+    DeletarPedido
 )
 
 export default router;

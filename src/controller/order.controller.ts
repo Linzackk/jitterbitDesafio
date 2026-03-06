@@ -32,9 +32,20 @@ export async function ProcurarTodosPedidos (
     res: Response
 ) {
     const searchedOrders = await searchAllOrder();
-    await searchedOrders;
     res.status(StatusCode.OK).json({
         message: "Pedidos encontrados com sucesso.",
         data: {orders: searchedOrders}
+    })
+}
+
+export async function DeletarPedido(
+    req: Request,
+    res: Response
+) {
+    const {id} = req.params
+    const deletedOrder = await deleteOrder(id);
+    res.status(StatusCode.OK).json({
+        message: "Pedido deletado com sucesso.",
+        data: {order: deletedOrder}
     })
 }
