@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { FieldValidationError, validationResult } from "express-validator";
+import { StatusCode } from "../util/utilNumbers";
 
 export function validarErrosMiddleware(
     req: Request,
