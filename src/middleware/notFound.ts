@@ -1,4 +1,4 @@
-import { NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import { StatusCode } from "../util/utilNumbers";
 import { AppError } from "../model/appError";
 
