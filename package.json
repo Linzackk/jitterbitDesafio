@@ -1,0 +1,31 @@
+{
+  "name": "jitterbitdesafio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Linzackk/jitterbitDesafio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Linzackk/jitterbitDesafio/issues"
+  },
+  "homepage": "https://github.com/Linzackk/jitterbitDesafio#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1"
+  }
+}
