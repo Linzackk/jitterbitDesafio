@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { validarCreateOrder } from "../middleware/order.middleware";
+import { validarCreateOrder, validarProcurarOrder } from "../middleware/order.middleware";
 import { validarErrosMiddleware } from "../middleware/validarErros";
-import { CriarPedido } from "../controller/order.controller";
-// importar middlewares
+import { CriarPedido, ProcurarPedido } from "../controller/order.controller";
 
 const router = Router();
 
@@ -12,4 +11,12 @@ router.post(
     validarErrosMiddleware,
     CriarPedido,
 )
+
+router.get(
+    "/:id",
+    validarProcurarOrder,
+    validarErrosMiddleware,
+    ProcurarPedido
+)
+
 export default router;
