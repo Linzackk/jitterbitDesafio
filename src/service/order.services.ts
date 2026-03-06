@@ -18,7 +18,7 @@ export async function createOrder(
         }
         return true;
     } catch (error: any) {
-        // lançar erro global
+        console.log(error.message)
         return false;
     }
 }
