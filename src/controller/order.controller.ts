@@ -26,3 +26,14 @@ export async function ProcurarPedido (
         data: {order: searchedOrder}
     });
 }
+
+export async function ProcurarTodosPedidos (
+    req: Request,
+    res: Response
+) {
+    const searchedOrders = await searchAllOrder();
+    res.status(StatusCode.OK).json({
+        message: "Pedidos encontrados com sucesso.",
+        data: {orders: searchedOrders}
+    })
+}
