@@ -13,3 +13,16 @@ export async function CriarPedido(
         message:  createdOrder ? "Pedido criado com sucesso." : "Não foi possivel criar o Pedido."
     })
 }
+
+export async function ProcurarPedido (
+    req: Request,
+    res: Response
+) {
+    const {idPedido} = req.params
+
+    const searchedOrder = await searchOrder(idPedido);
+    res.status(StatusCode.OK).json({
+        messge: "Pedido encontrado com sucesso.",
+        data: {order: searchedOrder}
+    });
+}
