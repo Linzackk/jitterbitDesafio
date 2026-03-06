@@ -2,7 +2,9 @@ import { CreateItemDb } from "../infrastructure/item/item.create";
 import { CreateOrderDb } from "../infrastructure/order/order.create";
 import { deleteOrderDb } from "../infrastructure/order/order.delete";
 import { SearchOrderDataDb, SearchOrderDb } from "../infrastructure/order/order.search";
+import { AppError } from "../model/appError";
 import { Item } from "../model/item";
+import { StatusCode } from "../util/utilNumbers";
 
 export async function createOrder(
     numeroPedido: string, 
@@ -18,8 +20,7 @@ export async function createOrder(
         }
         return true;
     } catch (error: any) {
-        // lançar erro global
-        return false;
+        throw new AppError(`Pedido com ID ${numeroPedido} já foi cadastrado.`, StatusCode.BAD_REQUEST)
     }
 }
 
@@ -30,7 +31,7 @@ export async function searchOrder(idPedido: string) {
         return formatedOrder;
         
     } catch (error: any) {
-        console.log("ERRO: ", error.message)
+        throw new AppError(error.message, StatusCode.SERVER_ERROR);
     }
 
 }
@@ -46,15 +47,15 @@ export async function searchAllOrder() {
         return dataResponse
         
     } catch (error: any) {
-
+        throw new AppError(error.message, StatusCode.SERVER_ERROR);
     }
 }
 
 export async function deleteOrder(orderId: string) {
     try {
-        const data = await deleteOrderDb(orderId);
+        await deleteOrderDb(orderId);
     } catch (error: any) {
-
+        throw new AppError(error.message, StatusCode.SERVER_ERROR);
     }
 }
 
