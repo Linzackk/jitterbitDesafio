@@ -7,7 +7,7 @@ export async function deleteOrderDb(orderId: string) {
                     driver: sqlite3.Database
             });
 
-    const data = await db.run(`
+    await db.run(`
         DELETE FROM Orders
         WHERE orderId = ?
         `,
@@ -20,5 +20,4 @@ export async function deleteOrderDb(orderId: string) {
         `,
         orderId
     )
-    return data;
 }

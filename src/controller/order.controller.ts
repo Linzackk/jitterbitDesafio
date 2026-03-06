@@ -43,9 +43,8 @@ export async function DeletarPedido(
     res: Response
 ) {
     const {id} = req.params
-    const deletedOrder = await deleteOrder(id as string);
+    await deleteOrder(id as string);
     res.status(StatusCode.OK).json({
-        message: "Pedido deletado com sucesso.",
-        data: {order: deletedOrder}
+        message: "Pedido deletado com sucesso."
     })
 }

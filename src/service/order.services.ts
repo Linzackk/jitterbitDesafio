@@ -53,8 +53,6 @@ export async function searchAllOrder() {
 export async function deleteOrder(orderId: string) {
     try {
         const data = await deleteOrderDb(orderId);
-        console.log(data)
-        return true;
     } catch (error: any) {
 
     }

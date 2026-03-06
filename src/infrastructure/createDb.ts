@@ -27,13 +27,6 @@ export async function createDataBase() {
                 FOREIGN KEY (orderId) REFERENCES Orders(orderId)
             );
         `);
-
-        console.log(await db.get(`
-            SELECT * FROM Orders
-            `))
-        console.log(await db.get(`
-            SELECT * FROM Items
-            `))
     } catch (error) {
         console.error(`Erro no Banco: ${error}`)
     }
