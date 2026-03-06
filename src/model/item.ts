@@ -1,4 +1,4 @@
-export type Item {
+export type Item = {
     orderId: string,
     productId: string,
     quantity: number,
