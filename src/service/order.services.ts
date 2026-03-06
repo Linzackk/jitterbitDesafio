@@ -25,20 +25,24 @@ export async function createOrder(
 export async function searchOrder(idPedido: string) {
     try {
         const searchedOrder = await SearchOrderDb(idPedido);
-        const formatedOrder = {
-            orderId: searchedOrder[0].orderId,
-            value: searchedOrder[0].value,
-            creationDate: searchedOrder[0].creationDate,
-            items: searchedOrder.map((item: any) => ({
-                productId: item.productId,
-                quantity: item.quantity,
-                price: item.price
-            }))
-        }
+        const formatedOrder = formatarLeituraPedido(searchedOrder)
         return formatedOrder;
         
     } catch (error: any) {
         console.log("ERRO: ", error.message)
     }
 
+}
+
+function formatarLeituraPedido(searchedOrder: any[]) {
+    return {
+        orderId: searchedOrder[0].orderId,
+        value: searchedOrder[0].value,
+        creationDate: searchedOrder[0].creationDate,
+        items: searchedOrder.map((item: any) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            price: item.price
+        }))
+    };
 }
