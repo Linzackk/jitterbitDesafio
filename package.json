@@ -22,10 +22,15 @@
   "homepage": "https://github.com/Linzackk/jitterbitDesafio#readme",
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/node": "^25.3.5",
+    "@types/sqlite3": "^3.1.11",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "express": "^5.2.1",
-    "express-validator": "^7.3.1"
+    "express-validator": "^7.3.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }
