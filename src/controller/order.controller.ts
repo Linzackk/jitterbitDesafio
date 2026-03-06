@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCode } from "../util/utilNumbers";
-import { createOrder } from "../service/order.services";
+import { createOrder, searchOrder } from "../service/order.services";
 
 export async function CriarPedido(
     req: Request,
@@ -18,9 +18,9 @@ export async function ProcurarPedido (
     req: Request,
     res: Response
 ) {
-    const {idPedido} = req.params
+    const {id} = req.params
 
-    const searchedOrder = await searchOrder(idPedido);
+    const searchedOrder = await searchOrder(id as string);
     res.status(StatusCode.OK).json({
         messge: "Pedido encontrado com sucesso.",
         data: {order: searchedOrder}
