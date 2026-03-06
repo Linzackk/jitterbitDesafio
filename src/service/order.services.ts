@@ -9,10 +9,24 @@ export async function createOrder(
     items: 
     Item[]
 ) {
-    const createdOrder = await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
-    items.forEach(item => {
-        CreateItemDb(numeroPedido, item);
-    });
-    
-    return true;
+    try {   
+        await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
+        items.forEach(item => {
+            CreateItemDb(numeroPedido, item);
+        });
+        return true;
+    } catch (error: any) {
+        // lançar erro global
+        return false;
+    }
+}
+
+export async function searchOrder(idPedido: string) {
+    try {
+        const searchedOrder = await searchOrderDb(idPedido);
+        return searchedOrder;
+    } catch (error: any) {
+        // lançar erro global
+    }
+
 }
