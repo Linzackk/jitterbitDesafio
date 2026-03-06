@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCode } from "../util/utilNumbers";
-import { createOrder, searchOrder } from "../service/order.services";
+import { createOrder, searchAllOrder, searchOrder } from "../service/order.services";
 
 export async function CriarPedido(
     req: Request,

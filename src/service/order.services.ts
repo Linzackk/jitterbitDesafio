@@ -1,6 +1,6 @@
 import { CreateItemDb } from "../infrastructure/item/item.create";
 import { CreateOrderDb } from "../infrastructure/order/order.create";
-import { SearchOrderDb } from "../infrastructure/order/order.search";
+import { SearchOrderDataDb, SearchOrderDb } from "../infrastructure/order/order.search";
 import { Item } from "../model/item";
 
 export async function createOrder(
@@ -32,6 +32,15 @@ export async function searchOrder(idPedido: string) {
         console.log("ERRO: ", error.message)
     }
 
+}
+
+export async function searchAllOrder() {
+    try {
+        const orders = await SearchOrderDataDb();
+        return orders;
+    } catch (error: any) {
+        
+    }
 }
 
 function formatarLeituraPedido(searchedOrder: any[]) {
