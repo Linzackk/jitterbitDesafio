@@ -1,5 +1,6 @@
 import { CreateItemDb } from "../infrastructure/item/item.create";
 import { CreateOrderDb } from "../infrastructure/order/order.create";
+import { SearchOrderDb } from "../infrastructure/order/order.search";
 import { Item } from "../model/item";
 
 export async function createOrder(
@@ -9,10 +10,35 @@ export async function createOrder(
     items: 
     Item[]
 ) {
-    const createdOrder = await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
-    items.forEach(item => {
-        CreateItemDb(numeroPedido, item);
-    });
-    
-    return true;
+    try {   
+        await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
+        items.forEach(item => {
+            CreateItemDb(numeroPedido, item);
+        });
+        return true;
+    } catch (error: any) {
+        // lançar erro global
+        return false;
+    }
+}
+
+export async function searchOrder(idPedido: string) {
+    try {
+        const searchedOrder = await SearchOrderDb(idPedido);
+        const formatedOrder = {
+            orderId: searchedOrder[0].orderId,
+            value: searchedOrder[0].value,
+            creationDate: searchedOrder[0].creationDate,
+            items: searchedOrder.map((item: any) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.price
+            }))
+        }
+        return formatedOrder;
+        
+    } catch (error: any) {
+        console.log("ERRO: ", error.message)
+    }
+
 }

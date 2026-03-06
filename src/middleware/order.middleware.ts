@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 export const validarCreateOrder = [
     body("numeroPedido")
@@ -24,4 +24,12 @@ export const validarCreateOrder = [
         .withMessage("Campo Obrigatório")
         .isArray()
         .withMessage("Campo precisa ser um array.")
+]
+
+export const validarProcurarOrder = [
+    param("id")
+        .notEmpty()
+        .withMessage("Campo obrigatório.")
+        .isString()
+        .withMessage("Campo precisa ser string.")
 ]
