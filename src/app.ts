@@ -8,6 +8,8 @@ app.use(express.json());
 
 app.use("/order", orderService);
 
+app.use(notFound);
+
 app.use(errorHandler);
 
 export default app;
