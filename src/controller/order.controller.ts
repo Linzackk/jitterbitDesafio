@@ -32,6 +32,7 @@ export async function ProcurarTodosPedidos (
     res: Response
 ) {
     const searchedOrders = await searchAllOrder();
+    await searchedOrders;
     res.status(StatusCode.OK).json({
         message: "Pedidos encontrados com sucesso.",
         data: {orders: searchedOrders}

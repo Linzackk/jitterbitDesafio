@@ -12,9 +12,9 @@ export async function createOrder(
 ) {
     try {   
         await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
-        items.forEach(item => {
-            CreateItemDb(numeroPedido, item);
-        });
+        for (const item of items) {
+            await CreateItemDb(numeroPedido, item)
+        }
         return true;
     } catch (error: any) {
         // lançar erro global
@@ -37,9 +37,15 @@ export async function searchOrder(idPedido: string) {
 export async function searchAllOrder() {
     try {
         const orders = await SearchOrderDataDb();
-        return orders;
-    } catch (error: any) {
+
+        const dataResponse = await Promise.all(
+            orders.map(order => searchOrder(order.orderId))
+        );
+
+        return dataResponse
         
+    } catch (error: any) {
+
     }
 }
 

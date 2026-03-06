@@ -1,0 +1,15 @@
+// {
+//   orderId: 'v10089015vdb-01',
+//   value: 10000,
+//   creationDate: '2023-07-19T12:24:11.5299601+00:00',
+//   idItem: 1,
+//   productId: 2434,
+//   quantity: 1,
+//   price: 1000
+// }
+type OrderData = {
+    orderId: string,
+    value: number,
+    creationDate: string,
+       
+}
