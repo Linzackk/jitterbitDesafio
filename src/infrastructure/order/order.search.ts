@@ -27,3 +27,17 @@ export async function SearchOrderDb(productId: string) {
     await db.close();
     return data;
 }
+
+export async function SearchOrderDataDb() {
+    const db = await open({
+        filename: './database.db',
+        driver: sqlite3.Database
+    });
+
+    const data = await db.all(`
+        SELECT orderId FROM Orders;
+        `)
+
+    await db.close();
+    return data;
+}

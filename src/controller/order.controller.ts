@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCode } from "../util/utilNumbers";
-import { createOrder, searchOrder } from "../service/order.services";
+import { createOrder, searchAllOrder, searchOrder } from "../service/order.services";
 
 export async function CriarPedido(
     req: Request,
@@ -25,4 +25,16 @@ export async function ProcurarPedido (
         messge: "Pedido encontrado com sucesso.",
         data: {order: searchedOrder}
     });
+}
+
+export async function ProcurarTodosPedidos (
+    req: Request,
+    res: Response
+) {
+    const searchedOrders = await searchAllOrder();
+    await searchedOrders;
+    res.status(StatusCode.OK).json({
+        message: "Pedidos encontrados com sucesso.",
+        data: {orders: searchedOrders}
+    })
 }
