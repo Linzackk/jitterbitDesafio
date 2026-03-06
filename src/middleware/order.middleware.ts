@@ -16,7 +16,7 @@ export const validarCreateOrder = [
     body("dataCriacao")
         .notEmpty()
         .withMessage("Campo Obrigatório")
-        .isDate()
+        .isISO8601()
         .withMessage("Campo precisa ser uma data."),
     
     body("items")
@@ -24,5 +24,4 @@ export const validarCreateOrder = [
         .withMessage("Campo Obrigatório")
         .isArray()
         .withMessage("Campo precisa ser um array.")
-        
 ]

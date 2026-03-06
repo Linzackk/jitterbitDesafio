@@ -1,9 +1,11 @@
+import { CreateItemDb } from "../infrastructure/item/item.create";
+import { CreateOrderDb } from "../infrastructure/order/order.create";
 import { Item } from "../model/item";
 
 export async function createOrder(
     numeroPedido: string, 
     valorTotal: number, 
-    dataCriacao: Date, 
+    dataCriacao: string, 
     items: 
     Item[]
 ) {
@@ -12,5 +14,5 @@ export async function createOrder(
         CreateItemDb(numeroPedido, item);
     });
     
-    return createdOrder;
+    return true;
 }

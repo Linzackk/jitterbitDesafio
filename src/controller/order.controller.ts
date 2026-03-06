@@ -10,7 +10,6 @@ export async function CriarPedido(
 
     const createdOrder = await createOrder(numeroPedido, valorTotal, dataCriacao, items);
     res.status(StatusCode.OK).json({
-        message: "Pedido criado com sucesso.",
-        data: {order: createdOrder}
+        message:  createdOrder ? "Pedido criado com sucesso." : "Não foi possivel criar o Pedido."
     })
 }

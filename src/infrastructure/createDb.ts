@@ -19,13 +19,21 @@ export async function createDataBase() {
 
         await db.exec(`
             CREATE TABLE IF NOT EXISTS Items (
-                productId INTEGER PRIMARY KEY,
+                idItem INTEGER PRIMARY KEY AUTOINCREMENT,
+                productId INTEGER NOT NULL,
                 orderId VARCHAR(50) NOT NULL,
                 quantity INTEGER NOT NULL,
                 price REAL NOT NULL,
                 FOREIGN KEY (orderId) REFERENCES Orders(orderId)
-            )
-        `)
+            );
+        `);
+
+        console.log(await db.get(`
+            SELECT * FROM Orders
+            `))
+        console.log(await db.get(`
+            SELECT * FROM Items
+            `))
     } catch (error) {
         console.error(`Erro no Banco: ${error}`)
     }
