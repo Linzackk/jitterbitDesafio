@@ -1,11 +1,20 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
-export async function SearchOrderDb(productId: string) {
+export async function SearchOrderDb(orderId: string) {
     const db = await open({
         filename: './database.db',
         driver: sqlite3.Database
     });
+
+    const order = await db.all(`
+        SELECT * FROM Orders
+        WHERE orderId = ?
+        `,
+        orderId
+    )
+    if (order.length === 0)
+        return false;
 
     const data = await db.all(`
         SELECT 
@@ -21,7 +30,7 @@ export async function SearchOrderDb(productId: string) {
             ON o.orderId = i.orderId
         WHERE o.orderId = ?
         `,
-        productId
+        orderId
     )
 
     await db.close();

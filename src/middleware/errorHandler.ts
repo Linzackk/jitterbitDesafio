@@ -3,7 +3,7 @@ import { AppError } from "../model/appError"
 import { StatusCode } from "../util/utilNumbers";
 
 export function errorHandler(
-    err: Error,
+    err: AppError,
     req: Request,
     res: Response,
     next: NextFunction

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { validarCreateOrder, validarIdPedido } from "../middleware/order.middleware";
+import { validarAtualizarPedido, validarCreateOrder, validarIdPedido } from "../middleware/order.middleware";
 import { validarErrosMiddleware } from "../middleware/validarErros";
-import { CriarPedido, ProcurarPedido, ProcurarTodosPedidos, DeletarPedido } from "../controller/order.controller";
+import { CriarPedido, ProcurarPedido, ProcurarTodosPedidos, DeletarPedido, atualizarPedidos } from "../controller/order.controller";
 
 const router = Router();
 
@@ -22,6 +22,14 @@ router.get(
 router.get(
     "/",
     ProcurarTodosPedidos
+)
+
+router.put(
+    "/:id",
+    validarIdPedido,
+    validarAtualizarPedido,
+    validarErrosMiddleware,
+    atualizarPedidos,
 )
 
 router.delete(
