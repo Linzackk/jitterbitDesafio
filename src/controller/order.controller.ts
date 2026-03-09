@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCode } from "../util/utilNumbers";
-import { createOrder, searchAllOrder, searchOrder, deleteOrder } from "../service/order.services";
+import { createOrder, searchAllOrder, searchOrder, deleteOrder, atualizarPedido } from "../service/order.services";
 
 export async function CriarPedido(
     req: Request,
@@ -56,8 +56,8 @@ export async function atualizarPedidos(
 {
     const {id} = req.params;
     const {items, valorTotal} = req.body;
-    await atualizarPedido(id as string, valorTotal, items);
+    const data = await atualizarPedido(id as string, valorTotal, items);
     res.status(StatusCode.OK).json({
-        message: "Pedido atualizado com sucesso."
+        message: "Pedido atualizado com sucesso.",
     })
 }
