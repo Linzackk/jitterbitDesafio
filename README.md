@@ -109,15 +109,15 @@ A relação entre as entidades é:
 Ou seja, um pedido pode possuir múltiplos itens.
 
 ## Tabela Orders
-
+```
   Campo          Tipo          Descrição
   -------------- ------------- -------------------------------
   orderId        VARCHAR(50)   Identificador único do pedido
   value          REAL          Valor total do pedido
   creationDate   TEXT          Data de criação do pedido
-
+```
 ## Tabela Items
-
+```
   Campo       Tipo          Descrição
   ----------- ------------- --------------------------------
   idItem      INTEGER       Chave primária autoincremental
@@ -125,7 +125,7 @@ Ou seja, um pedido pode possuir múltiplos itens.
   orderId     VARCHAR(50)   Pedido ao qual o item pertence
   quantity    INTEGER       Quantidade do item
   price       REAL          Valor unitário do item
-
+```
 Observação: o campo **idItem** é utilizado apenas como chave interna do
 banco de dados. O identificador funcional do item é representado pelo
 **productId**.
