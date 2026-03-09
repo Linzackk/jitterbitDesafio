@@ -9,7 +9,7 @@ export async function CriarPedido(
     const {numeroPedido, valorTotal, dataCriacao, items} = req.body;
 
     const createdOrder = await createOrder(numeroPedido, valorTotal, dataCriacao, items);
-    res.status(StatusCode.OK).json({
+    res.status(StatusCode.CREATED).json({
         message:  createdOrder ? "Pedido criado com sucesso." : "Não foi possivel criar o Pedido."
     })
 }
@@ -42,9 +42,22 @@ export async function DeletarPedido(
     req: Request,
     res: Response
 ) {
-    const {id} = req.params
+    const {id} = req.params;
     await deleteOrder(id as string);
     res.status(StatusCode.OK).json({
         message: "Pedido deletado com sucesso."
+    })
+}
+
+export async function atualizarPedidos(
+    req: Request,
+    res: Response
+)
+{
+    const {id} = req.params;
+    const {items, valorTotal} = req.body;
+    await atualizarPedido(id as string, valorTotal, items);
+    res.status(StatusCode.OK).json({
+        message: "Pedido atualizado com sucesso."
     })
 }
