@@ -6,7 +6,7 @@ export async function searchItemDb(orderId: string, itemId: number) {
             filename: './database.db',
             driver: sqlite3.Database
         });
-    
+
     const data = await db.get(`
         SELECT * FROM Items 
         WHERE

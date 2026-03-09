@@ -1,4 +1,5 @@
 import { CreateItemDb } from "../infrastructure/item/item.create";
+import { deleteItemDb } from "../infrastructure/item/item.delete";
 import { searchItemDb } from "../infrastructure/item/item.search";
 import { updateItemDb } from "../infrastructure/item/item.update";
 import { CreateOrderDb } from "../infrastructure/order/order.create";
@@ -18,9 +19,7 @@ export async function createOrder(
 ) {
     try {   
         await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
-        for (const item of items) {
-            await CreateItemDb(numeroPedido, item)
-        }
+        await criarItensDoPedido(numeroPedido, items)
         return true;
     } catch (error: any) {
         throw new AppError(`Pedido com ID ${numeroPedido} já foi cadastrado.`, StatusCode.BAD_REQUEST)
@@ -30,6 +29,8 @@ export async function createOrder(
 export async function searchOrder(idPedido: string) {
     try {
         const searchedOrder = await SearchOrderDb(idPedido);
+        if (!searchedOrder)
+            throw new AppError("Pedido não encontrado.", StatusCode.NOT_FOUND)
         const formatedOrder = formatarLeituraPedido(searchedOrder)
         return formatedOrder;
         
@@ -83,17 +84,48 @@ export async function atualizarPedido(orderId: string, valorTotal: number, items
 
         if (!items) 
             return;
-        
-        for (const item of items) {
-            const data = await searchItemDb(orderId, parseInt(items[0].idItem))
-            if (data) {
-                updateItemDb(orderId, item);
-            }
-            else {
-                CreateItemDb(orderId, item);
-            }
-        }
+
+        const orderItems = await SearchOrderDb(orderId);
+
+        if (!orderItems)
+            throw new AppError("Pedido não encontrado.", StatusCode.NOT_FOUND)
+
+        const iguais = items.filter(i => 
+            orderItems.some(b => b.productId === i.idItem)
+        )
+
+        const diferentes = orderItems.filter(i => 
+            !items.some(b => b.idItem === i.productId)
+        )
+
+        if (iguais.length > 0)
+            atualizarItensDoPedido(orderId, iguais);
+
+        if (diferentes.length > 0)
+            criarItensDoPedido(orderId, diferentes);
+
     } catch (error: any) {
         throw new AppError(error.message, StatusCode.SERVER_ERROR);
+    }
+}
+
+async function atualizarItensDoPedido(orderId: string, items: Item[]) {
+    for (const item of items) {
+        const data = await searchItemDb(orderId, parseInt(item.idItem))
+        
+        if (data) {
+            updateItemDb(orderId, item);
+        }
+        else {
+            CreateItemDb(orderId, item);
+        }
+    }
+}
+
+async function criarItensDoPedido(orderId: string, items: Item[]) {
+    for (const item of items) {
+        const data = await searchItemDb(orderId, item.productId)
+        if (data)
+            deleteItemDb(orderId, item);
     }
 }

@@ -7,6 +7,15 @@ export async function SearchOrderDb(orderId: string) {
         driver: sqlite3.Database
     });
 
+    const order = await db.all(`
+        SELECT * FROM Orders
+        WHERE orderId = ?
+        `,
+        orderId
+    )
+    if (order.length === 0)
+        return false;
+
     const data = await db.all(`
         SELECT 
             o.orderId,
