@@ -19,7 +19,7 @@ export async function createOrder(
 ) {
     try {   
         await CreateOrderDb(numeroPedido, valorTotal, dataCriacao);
-        await criarItensDoPedido(numeroPedido, items)
+        await atualizarItensDoPedido(numeroPedido, items)
         return true;
     } catch (error: any) {
         throw new AppError(`Pedido com ID ${numeroPedido} já foi cadastrado.`, StatusCode.BAD_REQUEST)
@@ -79,7 +79,7 @@ function formatarLeituraPedido(searchedOrder: any[]) {
 export async function atualizarPedido(orderId: string, valorTotal: number, items: Item[]) {
     try {
         if (valorTotal) {
-        await updateOrderDb(orderId, valorTotal)
+            await updateOrderDb(orderId, valorTotal)
         }
 
         if (!items) 
@@ -94,15 +94,17 @@ export async function atualizarPedido(orderId: string, valorTotal: number, items
             orderItems.some(b => b.productId === i.idItem)
         )
 
-        const diferentes = orderItems.filter(i => 
-            !items.some(b => b.idItem === i.productId)
-        )
-
+        const diferentes = items.filter(i => 
+        !orderItems.some(b => b.productId === i.idItem)
+    )
+        console.log(diferentes)
+        console.log(iguais)
+        
         if (iguais.length > 0)
             atualizarItensDoPedido(orderId, iguais);
 
         if (diferentes.length > 0)
-            criarItensDoPedido(orderId, diferentes);
+            deletarItensDoPedido(orderId, diferentes);
 
     } catch (error: any) {
         throw new AppError(error.message, StatusCode.SERVER_ERROR);
@@ -116,16 +118,15 @@ async function atualizarItensDoPedido(orderId: string, items: Item[]) {
         if (data) {
             updateItemDb(orderId, item);
         }
-        else {
-            CreateItemDb(orderId, item);
-        }
     }
 }
 
-async function criarItensDoPedido(orderId: string, items: Item[]) {
+async function deletarItensDoPedido(orderId: string, items: Item[]) {
     for (const item of items) {
         const data = await searchItemDb(orderId, item.productId)
         if (data)
             deleteItemDb(orderId, item);
+        else 
+            CreateItemDb(orderId, item);
     }
 }

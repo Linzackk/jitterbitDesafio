@@ -18,7 +18,7 @@ const utilNumbers_1 = require("../util/utilNumbers");
 async function createOrder(numeroPedido, valorTotal, dataCriacao, items) {
     try {
         await (0, order_create_1.CreateOrderDb)(numeroPedido, valorTotal, dataCriacao);
-        await criarItensDoPedido(numeroPedido, items);
+        await atualizarItensDoPedido(numeroPedido, items);
         return true;
     }
     catch (error) {
@@ -78,11 +78,13 @@ async function atualizarPedido(orderId, valorTotal, items) {
         if (!orderItems)
             throw new appError_1.AppError("Pedido não encontrado.", utilNumbers_1.StatusCode.NOT_FOUND);
         const iguais = items.filter(i => orderItems.some(b => b.productId === i.idItem));
-        const diferentes = orderItems.filter(i => !items.some(b => b.idItem === i.productId));
+        const diferentes = items.filter(i => !orderItems.some(b => b.productId === i.idItem));
+        console.log(diferentes);
+        console.log(iguais);
         if (iguais.length > 0)
             atualizarItensDoPedido(orderId, iguais);
         if (diferentes.length > 0)
-            criarItensDoPedido(orderId, diferentes);
+            deletarItensDoPedido(orderId, diferentes);
     }
     catch (error) {
         throw new appError_1.AppError(error.message, utilNumbers_1.StatusCode.SERVER_ERROR);
@@ -94,15 +96,14 @@ async function atualizarItensDoPedido(orderId, items) {
         if (data) {
             (0, item_update_1.updateItemDb)(orderId, item);
         }
-        else {
-            (0, item_create_1.CreateItemDb)(orderId, item);
-        }
     }
 }
-async function criarItensDoPedido(orderId, items) {
+async function deletarItensDoPedido(orderId, items) {
     for (const item of items) {
         const data = await (0, item_search_1.searchItemDb)(orderId, item.productId);
         if (data)
             (0, item_delete_1.deleteItemDb)(orderId, item);
+        else
+            (0, item_create_1.CreateItemDb)(orderId, item);
     }
 }
