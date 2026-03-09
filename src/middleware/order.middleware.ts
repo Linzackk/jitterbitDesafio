@@ -33,3 +33,19 @@ export const validarIdPedido = [
         .isString()
         .withMessage("Campo precisa ser string.")
 ]
+
+export const validarAtualizarPedido = [
+    body("valorTotal")
+        .optional()
+        .notEmpty()
+        .withMessage("Campo não pode ser vazio")
+        .isFloat({min: 0})
+        .withMessage("Campo precisa ser Real minimo 0."),
+
+    body("items")
+        .optional()
+        .notEmpty()
+        .withMessage("Campo não pode ser vazio")
+        .isArray()
+        .withMessage("Campo precisa ser um array.")
+]
