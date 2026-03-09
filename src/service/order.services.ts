@@ -76,20 +76,24 @@ function formatarLeituraPedido(searchedOrder: any[]) {
 }
 
 export async function atualizarPedido(orderId: string, valorTotal: number, items: Item[]) {
-    if (valorTotal) {
+    try {
+        if (valorTotal) {
         await updateOrderDb(orderId, valorTotal)
-    }
+        }
 
-    if (!items) 
-        return;
-    
-    for (const item of items) {
-        const data = await searchItemDb(orderId, parseInt(items[0].idItem))
-        if (data) {
-            updateItemDb(orderId, item);
+        if (!items) 
+            return;
+        
+        for (const item of items) {
+            const data = await searchItemDb(orderId, parseInt(items[0].idItem))
+            if (data) {
+                updateItemDb(orderId, item);
+            }
+            else {
+                CreateItemDb(orderId, item);
+            }
         }
-        else {
-            CreateItemDb(orderId, item);
-        }
+    } catch (error: any) {
+        throw new AppError(error.message, StatusCode.SERVER_ERROR);
     }
 }
