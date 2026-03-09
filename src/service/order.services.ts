@@ -1,7 +1,10 @@
 import { CreateItemDb } from "../infrastructure/item/item.create";
+import { searchItemDb } from "../infrastructure/item/item.search";
+import { updateItemDb } from "../infrastructure/item/item.update";
 import { CreateOrderDb } from "../infrastructure/order/order.create";
 import { deleteOrderDb } from "../infrastructure/order/order.delete";
 import { SearchOrderDataDb, SearchOrderDb } from "../infrastructure/order/order.search";
+import { updateOrderDb } from "../infrastructure/order/order.update";
 import { AppError } from "../model/appError";
 import { Item } from "../model/item";
 import { StatusCode } from "../util/utilNumbers";
@@ -70,4 +73,23 @@ function formatarLeituraPedido(searchedOrder: any[]) {
             price: item.price
         }))
     };
+}
+
+export async function atualizarPedido(orderId: string, valorTotal: number, items: Item[]) {
+    if (valorTotal) {
+        await updateOrderDb(orderId, valorTotal)
+    }
+
+    if (!items) 
+        return;
+    
+    for (const item of items) {
+        const data = await searchItemDb(orderId, parseInt(items[0].idItem))
+        if (data) {
+            updateItemDb(orderId, item);
+        }
+        else {
+            CreateItemDb(orderId, item);
+        }
+    }
 }
