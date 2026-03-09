@@ -1,5 +1,5 @@
 export type Item = {
-    orderId: string,
+    orderId?: string,
     idItem: string,
     quantidadeItem: number,
     valorItem: number
