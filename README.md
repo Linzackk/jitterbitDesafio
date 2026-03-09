@@ -328,13 +328,17 @@ Instalar dependências:
 
     npm install
 
-Executar o projeto:
+Executar o projeto em TypeScript:
 
     npm run dev
 
 Gerar build:
 
     npm run build
+
+Executar o projeto em JavaScript após build:
+
+    npm run start
 
 Após iniciar o servidor, a API estará disponível em:
 
