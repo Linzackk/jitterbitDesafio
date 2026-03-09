@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const order_middleware_1 = require("../middleware/order.middleware");
+const validarErros_1 = require("../middleware/validarErros");
+const order_controller_1 = require("../controller/order.controller");
+const router = (0, express_1.Router)();
+router.post("/", order_middleware_1.validarCreateOrder, validarErros_1.validarErrosMiddleware, order_controller_1.CriarPedido);
+router.get("/:id", order_middleware_1.validarIdPedido, validarErros_1.validarErrosMiddleware, order_controller_1.ProcurarPedido);
+router.get("/", order_controller_1.ProcurarTodosPedidos);
+router.put("/:id", order_middleware_1.validarIdPedido, order_middleware_1.validarAtualizarPedido, validarErros_1.validarErrosMiddleware, order_controller_1.atualizarPedidos);
+router.delete("/:id", order_middleware_1.validarIdPedido, validarErros_1.validarErrosMiddleware, order_controller_1.DeletarPedido);
+exports.default = router;
